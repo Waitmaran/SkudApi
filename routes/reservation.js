@@ -9,21 +9,25 @@ const mongoose = require('mongoose');
 
 router.post('/', (req, res) => {
     authenticateToken(req, res, () => {
-        const reservation = new ClassRoomUsers({
-            user: mongoose.Types.ObjectId(req.body.user_id),
-            classroom: mongoose.Types.ObjectId(req.body.classroom_id),
-            classnumber: req.body.classnumber,
-        });
-
-        console.log(reservation)
+        const classroom = Classroom.findById(req.body.classroom_id, "+key").then(data => {
+            const reservation = new ClassRoomUsers({
+                user: mongoose.Types.ObjectId(req.body.user_id),
+                classroom: mongoose.Types.ObjectId(req.body.classroom_id),
+                classroomName: data.name,
+                classroomType: data.type,
+                classroomKey: data.key
+            });
     
-        reservation.save()
-        .then(data => {
-            res.status(200).json({data});
-        })
-        .catch(err => {
-            res.status(400).json({messageServ: err});
-        });
+            console.log(reservation)
+        
+            reservation.save()
+            .then(data => {
+                res.status(200).json({data});
+            })
+            .catch(err => {
+                res.status(400).json({messageServ: err});
+            });
+        }).catch(err => {res.status(200).json(data)})
     })
 });
 

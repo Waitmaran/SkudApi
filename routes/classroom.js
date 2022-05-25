@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router();
 const Classroom = require('../models/Classroom')
 const dotenv = require('dotenv/config');
-const authenticateToken = require('../middleware/authenticate')
+const authenticateToken = require('../middleware/authenticate');
+const ClassRoomUsers = require('../models/ClassRoomUsers');
 
 router.get('/', (req, res) => {
     const classrooms = Classroom.find()
@@ -10,12 +11,23 @@ router.get('/', (req, res) => {
     .catch(err => {res.status(400).json(err)})
 });
 
+router.get('/available', (req, res) => {
+    authenticateToken(req, res, () =>
+    {
+        const reservation = ClassRoomUsers.find({user: req.body.userid})
+        
+        .then(data => {res.status(200).json(data)})
+        .catch(err => {res.status(400).json(err)})
+    })
+});
+
 router.post('/', (req, res) => {
     authenticateToken(req, res, () =>
     {
         const classroom = new Classroom({
             name: req.body.name,
-            type: req.body.type
+            type: req.body.type,
+            key: req.body.key
         });
         
         classroom.save()

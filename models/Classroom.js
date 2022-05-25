@@ -9,6 +9,11 @@ const ClassroomSchema = mongoose.Schema({
     type: {
         type: String,
         required: true
+    },
+    key: {
+        type: String,
+        required: true,
+        select: false
     }
 })
 

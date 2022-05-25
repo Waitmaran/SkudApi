@@ -8,13 +8,19 @@ const ClassRoomUsersSchema = mongoose.Schema({
     },
     classroom: {
         type: mongoose.ObjectId,
-        required: true,
+        required: true
     },
-    classnumber: {
-        type : Number, 
-        required: true,
-        min: 1,
-        max: 9 
+    classroomName: {
+        type: String,
+        required: true
+    },
+    classroomType: {
+        type: String,
+        required: true
+    },
+    classroomKey: {
+        type: String,
+        required:true
     }
 })
 
