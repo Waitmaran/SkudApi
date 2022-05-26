@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
     authenticateToken(req, res, () =>
     {
-        const reservation = ClassRoomUsers.find({user: req.body.userid})
+        const reservation = ClassRoomUsers.find({user: mongoose.Types.ObjectId(req.body.userid)})
         
         .then(data => {res.status(200).json(data)})
         .catch(err => {res.status(400).json(err)})
