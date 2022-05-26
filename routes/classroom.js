@@ -11,16 +11,6 @@ router.get('/', (req, res) => {
     .catch(err => {res.status(400).json(err)})
 });
 
-router.get('/available', (req, res) => {
-    authenticateToken(req, res, () =>
-    {
-        const reservation = ClassRoomUsers.find({user: req.body.userid})
-        
-        .then(data => {res.status(200).json(data)})
-        .catch(err => {res.status(400).json(err)})
-    })
-});
-
 router.post('/', (req, res) => {
     authenticateToken(req, res, () =>
     {

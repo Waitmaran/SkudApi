@@ -31,16 +31,24 @@ router.post('/', (req, res) => {
     })
 });
 
+
 router.get('/', (req, res) => {
-    const reservations = ClassRoomUsers.find()
-    .then(data => {res.status(200).json(data)})
-    .catch(err => {res.status(400).json(err)})
+    authenticateToken(req, res, () =>
+    {
+        const reservation = ClassRoomUsers.find({user: req.body.userid})
+        
+        .then(data => {res.status(200).json(data)})
+        .catch(err => {res.status(400).json(err)})
+    })
 });
 
 router.get('/:id', (req, res) => {
-    ClassRoomUsers.findById(req.params.id).populate(user)
-    .then(data => {res.status(200).json({id : req.body.id, user: req.body.user,  classroom: req.body.classroom, classnumber: req.body.classnumber})})
-    .catch(err => {res.status(400).json(err)})
+    authenticateToken(req, res, () =>
+    {
+        ClassRoomUsers.findById(req.params.id).populate(user)
+        .then(data => {res.status(200).json({id : req.body.id, user: req.body.user,  classroom: req.body.classroom, classnumber: req.body.classnumber})})
+        .catch(err => {res.status(400).json(err)})
+    })
 })
 
 router.delete('/:id', (req, res) => {
