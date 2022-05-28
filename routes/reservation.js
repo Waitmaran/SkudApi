@@ -32,7 +32,7 @@ router.post('/', (req, res) => {
 });
 
 
-router.get('/', (req, res) => {
+router.post('/available', (req, res) => {
     authenticateToken(req, res, () =>
     {
         const reservation = ClassRoomUsers.find({user: mongoose.Types.ObjectId(req.body.userid)})
