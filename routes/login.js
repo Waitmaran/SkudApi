@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
             const pass = md5.update(req.body.password).digest("hex");
             if(data.password == pass) {
                 const newToken = generateAccessToken(u.id);
-                res.status(200).json({token: newToken, "id": data.__id});
+                res.status(200).json({token: newToken, "id": data._id});
             } else {
                 res.status(400).json({message: "wrong password"});
             }
